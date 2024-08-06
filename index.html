@@ -19,19 +19,45 @@
 
     <!-- Side Panel for Adding Task -->
     <div id="side-panel">
-        <button id="close-panel-btn"><i class="fas fa-times"></i></button>
-        <div class="panel-content">
             <input type="text" id="new-task" placeholder="Enter a new task">
             <button id="save-task-btn" onclick="addTask()">Save</button>
-        </div>
     </div>
+    
 
-    <!-- Task Detail Panel -->
-    <div id="task-detail-panel" class="panel">
-        <button id="close-detail-btn">Close</button>
-        <p id="task-detail-text"></p>
+   <!-- Task Detail Panel -->
+<div id="task-detail-panel" class="side-panel">
+    <div class="panel-header">
+        <h3>Task Details</h3>
+        <button id="close-detail-btn">X</button>
+    </div>
+    <div class="panel-content">
+        <h4 id="task-detail-text"></h4>
+        <textarea id="task-notes" placeholder="Add notes here..."></textarea>
+        <div class="reminder-section">
+            <label for="reminder-time">Set Reminder:</label>
+            <input type="datetime-local" id="reminder-time">
+        </div>
+        <!-- Add this to your HTML where you have other task details fields -->
+        <label for="due-time">Due Time:</label>
+    <input type="datetime-local" id="due-time">
+        <div class="repeat-section">
+            <label for="repeat-mode">Repeat Mode:</label>
+            <select id="repeat-mode">
+                <option value="none">None</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+        </div>
+        <div class="subtasks-section">
+            <label>Sub-tasks:</label>
+            <ul id="subtasks-list"></ul>
+            <input type="text" id="new-subtask" placeholder="Add sub-task...">
+        </div>
         <button id="delete-task-btn">Delete Task</button>
     </div>
+</div>
+
 
     <!-- Confirmation Dialog -->
     <div id="confirmation-dialog" class="dialog">
@@ -49,7 +75,7 @@
         <button id="accept-cookies">Yes</button>
         <button id="decline-cookies">No</button>
     </div>
-
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
+    
 </body>
 </html>
