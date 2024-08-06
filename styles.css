@@ -1,0 +1,341 @@
+:root {
+    --primary-color: #0081A7;  /* Dark Blue */
+    --secondary-color: #00AFB9;  /* Aqua Blue */
+    --background-color: #FDFCDC;  /* Light Yellow */
+    --accent-color: #FED9B7;  /* Peach */
+    --highlight-color: #F07167;  /* Coral */
+}
+
+body {
+    font-family: 'Roboto', sans-serif; /* Use Google Font */
+    background-color: var(--background-color);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+}
+
+#side-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0; /* Initially hidden */
+    height: 100%;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+#side-panel.open {
+    width: 300px; /* Fixed width when open */
+}
+
+#task-detail-panel {
+    position: fixed;
+    top: 0;
+    left: -400px; /* Initially hidden */
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+#task-detail-panel.open {
+    left: 0;
+}
+
+.panel-content {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    padding: 20px;
+}
+
+#new-task {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#close-panel-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Positioned to the top-right of the panel */
+    background-color: transparent; /* Remove background */
+    border: none;
+    color: var(--highlight-color); /* Icon color */
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#close-panel-btn:hover {
+    color: var(--accent-color);
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 400px); /* Adjust width based on side panel width */
+    margin-left: 400px; /* Offset from the left to accommodate the side panel */
+    position: relative;
+    z-index: 5; /* Ensure the container stays above the side panel */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+#open-panel-btn {
+    position: absolute; /* Positioning absolute to place at bottom-right */
+    bottom: 20px; /* Distance from bottom */
+    right: 20px; /* Distance from right */
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 50px; /* Large border-radius for rounded button */
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+#open-panel-btn i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+#open-panel-btn:hover {
+    background-color: var(--primary-color);
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: var(--background-color);
+}
+
+.task.completed {
+    text-decoration: line-through;
+    color: var(--highlight-color);
+}
+
+.task button {
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.task button:hover {
+    background-color: var(--accent-color);
+}
+
+#save-task-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#save-task-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+#task-detail-panel {
+    position: fixed;
+    top: 0;
+    left: -400px; /* Initially hidden */
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+#task-detail-panel.open {
+    left: 0;
+}
+
+.detail-content {
+    text-align: center;
+    padding: 20px;
+}
+
+#task-detail-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+#task-detail-close-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#task-detail-close-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+#close-detail-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Positioned to the top-right of the panel */
+    background-color: transparent; /* Remove background */
+    border: none;
+    color: var(--highlight-color); /* Icon color */
+    font-size: 20px;
+    cursor: pointer;
+
+}
+
+#close-detail-btn:hover {
+    color: var(--accent-color);
+}
+#task-detail-panel {
+    /* Your existing styles for the panel */
+}
+
+#delete-task-btn {
+    background-color: #F07167; /* Example color */
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#delete-task-btn:hover {
+    background-color: #D94F4F; /* Darker shade on hover */
+}
+
+/* Style for the radio button */
+.completion-radio {
+    width: 25px; /* Adjust the width as needed */
+    height: 25px; /* Adjust the height as needed */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the radio button */
+    accent-color: var(--secondary-color); /* Use a color if the browser supports it */
+}
+
+/* Optional: Style for the completed state */
+.task.completed .completion-radio {
+    background-color: var(--secondary-color); /* Change this to the color you prefer */
+    border-radius: 50%; /* Makes the radio button round */
+}
+/* Basic styling for the dialog overlay */
+.dialog {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 20; /* Ensure it's on top */
+}
+
+/* Styling for the dialog box */
+.dialog-content {
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Styling for dialog buttons */
+.dialog-buttons {
+    margin-top: 20px;
+}
+
+.dialog-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+#confirm-btn {
+    background-color: #F07167; /* Coral */
+    color: white;
+}
+
+#confirm-btn:hover {
+    background-color: #D94F4F; /* Darker shade on hover */
+}
+
+#cancel-btn {
+    background-color: #0081A7; /* Dark Blue */
+    color: white;
+}
+
+#cancel-btn:hover {
+    background-color: #006C8D; /* Darker shade on hover */
+}
+/* Cookie Consent Styles */
+.cookie-consent {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.cookie-consent button {
+    margin: 0 10px;
+}
