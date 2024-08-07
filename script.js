@@ -1,4 +1,5 @@
-// Function to show a notification
+// Function to show 
+
 function showNotification(title, options) {
     if (Notification.permission === 'granted') {
         new Notification(title, options);
@@ -17,20 +18,12 @@ function checkNotifications() {
         const dueTime = new Date(task.dueTime).getTime();
 
         if (reminderTime && now >= reminderTime && !task.reminderNotified) {
-            // Trigger reminder notification
-            showNotification('Reminder', {
-                body: task.text,
-                icon: 'path/to/icon.png' // Optional: path to an icon image
-            });
+            showNotification('Reminder', { body: task.text, icon: 'path/to/icon.png' });
             task.reminderNotified = true; // Mark as notified
         }
 
         if (dueTime && now >= dueTime && !task.dueNotified) {
-            // Trigger due date notification
-            showNotification('Due Date', {
-                body: task.text,
-                icon: 'path/to/icon.png' // Optional: path to an icon image
-            });
+            showNotification('Due Date', { body: task.text, icon: 'path/to/icon.png' });
             task.dueNotified = true; // Mark as notified
         }
     });
@@ -45,17 +38,11 @@ setInterval(checkNotifications, 60000);
 // Function to save task details including notification status
 function saveTaskDetails() {
     if (currentTaskItem) {
-        const taskNotes = document.getElementById('task-notes').value;
-        const reminderTime = document.getElementById('reminder-time').value;
-        const repeatMode = document.getElementById('repeat-mode').value;
-        const dueTime = document.getElementById('due-time').value;
-        const subtasks = Array.from(document.getElementById('subtasks-list').children).map(subtask => subtask.textContent);
-
-        currentTaskItem.dataset.notes = taskNotes;
-        currentTaskItem.dataset.reminderTime = reminderTime;
-        currentTaskItem.dataset.repeatMode = repeatMode;
-        currentTaskItem.dataset.dueTime = dueTime;
-        currentTaskItem.dataset.subtasks = JSON.stringify(subtasks);
+        currentTaskItem.dataset.notes = document.getElementById('task-notes').value;
+        currentTaskItem.dataset.reminderTime = document.getElementById('reminder-time').value;
+        currentTaskItem.dataset.repeatMode = document.getElementById('repeat-mode').value;
+        currentTaskItem.dataset.dueTime = document.getElementById('due-time').value;
+        currentTaskItem.dataset.subtasks = JSON.stringify(Array.from(document.getElementById('subtasks-list').children).map(subtask => subtask.textContent));
 
         // Mark notifications as not notified
         currentTaskItem.dataset.reminderNotified = 'false';
@@ -68,9 +55,7 @@ function saveTaskDetails() {
 // Function to show the cookie consent alert
 function showCookieConsent() {
     const consentBanner = document.getElementById('cookie-consent');
-    const hasConsented = localStorage.getItem('cookieConsent');
-    
-    if (!hasConsented) {
+    if (!localStorage.getItem('cookieConsent')) {
         consentBanner.style.display = 'block';
     }
 }
@@ -78,13 +63,7 @@ function showCookieConsent() {
 // Function to handle user response to the cookie consent
 function handleCookieConsent(accepted) {
     const consentBanner = document.getElementById('cookie-consent');
-    if (accepted) {
-        localStorage.setItem('cookieConsent', 'yes');
-        // Initialize cookie-related functionality if needed
-    } else {
-        localStorage.setItem('cookieConsent', 'no');
-        // Handle the scenario when cookies are declined (e.g., disable features)
-    }
+    localStorage.setItem('cookieConsent', accepted ? 'yes' : 'no');
     consentBanner.style.display = 'none';
 }
 
@@ -96,23 +75,15 @@ document.getElementById('decline-cookies').addEventListener('click', () => handl
 function addTask() {
     const taskInput = document.getElementById('new-task');
     const taskText = taskInput.value.trim();
-    
+
     if (taskText !== "") {
         const taskList = document.getElementById('task-list');
-
         const taskItem = document.createElement('li');
         taskItem.className = 'task';
-        taskItem.innerHTML = `
-            <span>${taskText}</span>
-            <div>
-                <input type="radio" class="completion-radio" />
-            </div>
-        `;
+        taskItem.innerHTML = `<span>${taskText}</span><div><input type="radio" class="completion-radio" /></div>`;
         taskItem.addEventListener('click', () => showTaskDetail(taskText, taskItem));
-
-        // Add event listener for the radio button
         taskItem.querySelector('.completion-radio').addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent click from triggering task item click event
+            event.stopPropagation();
             markAsCompleted(taskItem);
         });
 
@@ -127,27 +98,21 @@ function addTask() {
 // Function to mark a task as completed
 function markAsCompleted(taskItem) {
     taskItem.classList.toggle('completed');
-
-    const radioButton = taskItem.querySelector('.completion-radio');
-    radioButton.checked = taskItem.classList.contains('completed');
-
+    taskItem.querySelector('.completion-radio').checked = taskItem.classList.contains('completed');
     saveTasks(); // Save tasks to local storage
 }
 
 // Function to show confirmation dialog
 function showConfirmationDialog(taskItem) {
     const confirmationDialog = document.getElementById('confirmation-dialog');
-    const confirmBtn = document.getElementById('confirm-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-
     confirmationDialog.style.display = 'flex'; // Show the dialog
 
-    confirmBtn.onclick = () => {
+    document.getElementById('confirm-btn').onclick = () => {
         deleteTask(taskItem); // Proceed with deletion
         confirmationDialog.style.display = 'none'; // Hide the dialog
     };
 
-    cancelBtn.onclick = () => {
+    document.getElementById('cancel-btn').onclick = () => {
         confirmationDialog.style.display = 'none'; // Hide the dialog
     };
 }
@@ -156,14 +121,12 @@ function showConfirmationDialog(taskItem) {
 function deleteTask(taskItem) {
     taskItem.remove(); // Remove the task item from the list
     closeTaskDetail(); // Optionally close the task detail panel after deletion
-
     saveTasks(); // Save tasks to local storage
 }
 
 // Function to toggle the side panel
 function toggleSidePanel() {
-    const sidePanel = document.getElementById('side-panel');
-    sidePanel.classList.toggle('open');
+    document.getElementById('side-panel').classList.toggle('open');
 }
 
 // Function to show task details
@@ -171,24 +134,16 @@ let currentTaskItem = null; // Global variable to store the current task item
 
 function showTaskDetail(taskText, taskItem) {
     const taskDetailPanel = document.getElementById('task-detail-panel');
-    const taskDetailText = document.getElementById('task-detail-text');
-    const deleteButton = document.getElementById('delete-task-btn');
-    const taskNotes = document.getElementById('task-notes');
-    const reminderTime = document.getElementById('reminder-time');
-    const repeatMode = document.getElementById('repeat-mode');
-    const dueTime = document.getElementById('due-time'); // Get due time element
-    const subtasksList = document.getElementById('subtasks-list');
-
-    taskDetailText.textContent = taskText; // Set task details text
-    taskNotes.value = taskItem.dataset.notes || ""; // Load notes from data attribute
-    reminderTime.value = taskItem.dataset.reminderTime || ""; // Load reminder time
-    repeatMode.value = taskItem.dataset.repeatMode || "none"; // Load repeat mode
-    dueTime.value = taskItem.dataset.dueTime || ""; // Load due time
-    subtasksList.innerHTML = taskItem.dataset.subtasks ? JSON.parse(taskItem.dataset.subtasks).map(subtask => `<li>${subtask}</li>`).join('') : "";
+    document.getElementById('task-detail-text').textContent = taskText;
+    document.getElementById('task-notes').value = taskItem.dataset.notes || "";
+    document.getElementById('reminder-time').value = taskItem.dataset.reminderTime || "";
+    document.getElementById('repeat-mode').value = taskItem.dataset.repeatMode || "none";
+    document.getElementById('due-time').value = taskItem.dataset.dueTime || "";
+    document.getElementById('subtasks-list').innerHTML = taskItem.dataset.subtasks ? JSON.parse(taskItem.dataset.subtasks).map(subtask => `<li>${subtask}</li>`).join('') : "";
 
     currentTaskItem = taskItem; // Store the reference to the current task item
 
-    deleteButton.onclick = () => showConfirmationDialog(currentTaskItem); // Show confirmation dialog
+    document.getElementById('delete-task-btn').onclick = () => showConfirmationDialog(currentTaskItem); // Show confirmation dialog
     taskDetailPanel.classList.add('open'); // Show task detail panel
 }
 
@@ -211,21 +166,20 @@ document.getElementById('new-subtask').addEventListener('keypress', (event) => {
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     const taskList = document.getElementById('task-list');
-    
+    taskList.innerHTML = ''; // Clear the task list before loading
+
     tasks.forEach(task => {
         const taskItem = document.createElement('li');
         taskItem.className = 'task';
         taskItem.classList.toggle('completed', task.completed);
-        taskItem.innerHTML = `
-            <span>${task.text}</span>
-            <div>
-                <input type="radio" class="completion-radio" ${task.completed ? 'checked' : ''} />
-            </div>
-        `;
+        taskItem.innerHTML = `<span>${task.text}</span><div><input type="radio" class="completion-radio" ${task.completed ? 'checked' : ''} /></div>`;
         taskItem.dataset.notes = task.notes || "";
         taskItem.dataset.reminderTime = task.reminderTime || "";
         taskItem.dataset.repeatMode = task.repeatMode || "none";
         taskItem.dataset.subtasks = JSON.stringify(task.subtasks || []);
+        taskItem.dataset.reminderNotified = task.reminderNotified || "false";
+        taskItem.dataset.dueNotified = task.dueNotified || "false";
+        taskItem.dataset.dueTime = task.dueTime || "";
 
         taskItem.addEventListener('click', () => showTaskDetail(task.text, taskItem));
         taskItem.querySelector('.completion-radio').addEventListener('click', (event) => {
@@ -245,36 +199,22 @@ function saveTasks() {
         notes: taskItem.dataset.notes || "",
         reminderTime: taskItem.dataset.reminderTime || "",
         repeatMode: taskItem.dataset.repeatMode || "none",
-        subtasks: JSON.parse(taskItem.dataset.subtasks || "[]")
+        subtasks: JSON.parse(taskItem.dataset.subtasks || "[]"),
+        reminderNotified: taskItem.dataset.reminderNotified || "false",
+        dueNotified: taskItem.dataset.dueNotified || "false",
+        dueTime: taskItem.dataset.dueTime || ""
     }));
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 // Event listener to save task details when closing the task details panel
 document.getElementById('close-detail-btn').addEventListener('click', () => {
-    saveTaskDetails(); // Save the current task details
-    closeTaskDetail(); // Close the task details panel
+    saveTaskDetails(); // Save task details to local storage
+    document.getElementById('task-detail-panel').classList.remove('open'); // Close the task details panel
 });
 
-// Event listeners for opening and closing the side panel
-document.getElementById('open-panel-btn').addEventListener('click', toggleSidePanel);
-document.getElementById('close-panel-btn').addEventListener('click', toggleSidePanel);
-
-// Event listener for adding a task when the Enter key is pressed
-document.getElementById('new-task').addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-        addTask();
-    }
-});
-
-// Function to close task details panel
-function closeTaskDetail() {
-    const taskDetailPanel = document.getElementById('task-detail-panel');
-    taskDetailPanel.classList.remove('open');
-}
-
-// Load tasks and show cookie consent alert when the page loads
+// Load tasks when the page is loaded
 window.addEventListener('load', () => {
     loadTasks();
-    showCookieConsent(); // Show cookie consent alert
+    showCookieConsent();
 });
